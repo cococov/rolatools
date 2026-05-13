@@ -30,6 +30,9 @@
     </script>
   </head>
   <body>
+    <div class="bg-orb bg-orb-a" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb-b" aria-hidden="true"></div>
+
     <div class="theme-toggle-wrap">
       <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema" aria-pressed="false">
         <span class="theme-toggle-option is-active" data-option="dark">Oscuro</span>
@@ -38,40 +41,42 @@
     </div>
 
     <main class="shell">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">Ragnarok Online LATAM Toolkit</p>
-          <h1>RolaTools</h1>
+      <header class="hero section">
+        <p class="eyebrow">Ragnarok Online LATAM Toolkit</p>
+        <h1>RolaTools</h1>
+        <p class="hero-copy">
+          Plataforma de herramientas para jugadores y guilds de RO LATAM. Centraliza análisis de replays,
+          consulta de data del juego y seguimiento de progreso en un solo lugar.
+        </p>
+        <div class="hero-pills" aria-label="Componentes de RolaTools">
+          <span class="pill">Replay Analytics</span>
+          <span class="pill">Divine Pride Data</span>
+          <span class="pill">Progress Tracking</span>
         </div>
       </header>
 
-      <section class="section intro">
-        <h2>¿Qué es RolaTools?</h2>
-        <p>
-          RolaTools es un ecosistema de herramientas web para jugadores y guilds de Ragnarok Online LATAM.
-          Centraliza utilidades para analizar rendimiento, consultar información del juego y llevar seguimiento de objetivos.
-        </p>
-      </section>
-
-      <section class="section">
+      <section class="section tools">
         <div class="section-heading">
           <h2>Herramientas disponibles</h2>
         </div>
 
         <div class="tools-grid">
-          <article class="tool-card">
+          <article class="tool-card tool-replay">
+            <p class="tool-kicker">01</p>
             <h3>Replay Analyzer</h3>
             <p>Analiza replays RRF para revisar daño, skills, mobs, loot y desempeño en combate.</p>
             <a class="result-link" href="https://replay.rolatools.com/" target="_blank" rel="noopener noreferrer">Abrir replay.rolatools.com</a>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card tool-dps">
+            <p class="tool-kicker">02</p>
             <h3>Divine Pride Search</h3>
             <p>Consulta rápida de ítems, mobs, skills y datos de referencia para RO LATAM.</p>
             <a class="result-link" href="https://dps.rolatools.com/" target="_blank" rel="noopener noreferrer">Abrir dps.rolatools.com</a>
           </article>
 
-          <article class="tool-card">
+          <article class="tool-card tool-tracker">
+            <p class="tool-kicker">03</p>
             <h3>Progress Tracker</h3>
             <p>Seguimiento de progreso de personajes, metas de farmeo y objetivos compartidos.</p>
             <a class="result-link" href="https://tracker.rolatools.com/" target="_blank" rel="noopener noreferrer">Abrir tracker.rolatools.com</a>
