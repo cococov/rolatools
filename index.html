@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es" data-theme="dark" style="color-scheme: dark;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RolaTools | Índice</title>
+    <meta
+      name="description"
+      content="RolaTools es un conjunto de herramientas para la comunidad de Ragnarok Online LATAM: análisis de replays, base de datos de Divine Pride y tracker de progreso."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script>
+      try {
+        const cookieMatch = document.cookie.match(/(?:^|; )theme=(light|dark)(?:;|$)/);
+        const cookieTheme = cookieMatch?.[1];
+        const stored = localStorage.getItem("theme");
+        const theme =
+          cookieTheme === "light" || cookieTheme === "dark"
+            ? cookieTheme
+            : stored === "light" || stored === "dark"
+              ? stored
+              : matchMedia("(prefers-color-scheme: light)").matches
+                ? "light"
+                : "dark";
+
+        document.documentElement.dataset.theme = theme;
+        document.documentElement.style.colorScheme = theme;
+        if (stored !== theme) localStorage.setItem("theme", theme);
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <div class="theme-toggle-wrap">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Cambiar tema" aria-pressed="false">
+        <span class="theme-toggle-option is-active" data-option="dark">Oscuro</span>
+        <span class="theme-toggle-option" data-option="light">Claro</span>
+      </button>
+    </div>
+
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Ragnarok Online LATAM Toolkit</p>
+          <h1>RolaTools</h1>
+        </div>
+      </header>
+
+      <section class="section intro">
+        <h2>¿Qué es RolaTools?</h2>
+        <p>
+          RolaTools es un ecosistema de herramientas web para jugadores y guilds de Ragnarok Online LATAM.
+          Centraliza utilidades para analizar rendimiento, consultar información del juego y llevar seguimiento de objetivos.
+        </p>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Herramientas disponibles</h2>
+        </div>
+
+        <div class="tools-grid">
+          <article class="tool-card">
+            <h3>Replay Analyzer</h3>
+            <p>Analiza replays RRF para revisar daño, skills, mobs, loot y desempeño en combate.</p>
+            <a class="result-link" href="https://replay.rolatools.com/" target="_blank" rel="noopener noreferrer">Abrir replay.rolatools.com</a>
+          </article>
+
+          <article class="tool-card">
+            <h3>Divine Pride Search</h3>
+            <p>Consulta rápida de ítems, mobs, skills y datos de referencia para RO LATAM.</p>
+            <a class="result-link" href="https://dps.rolatools.com/" target="_blank" rel="noopener noreferrer">Abrir dps.rolatools.com</a>
+          </article>
+
+          <article class="tool-card">
+            <h3>Progress Tracker</h3>
+            <p>Seguimiento de progreso de personajes, metas de farmeo y objetivos compartidos.</p>
+            <a class="result-link" href="https://tracker.rolatools.com/" target="_blank" rel="noopener noreferrer">Abrir tracker.rolatools.com</a>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const toggle = document.getElementById("theme-toggle");
+        const options = {
+          dark: toggle.querySelector('[data-option="dark"]'),
+          light: toggle.querySelector('[data-option="light"]')
+        };
+
+        function getTheme() {
+          return document.documentElement.dataset.theme === "light" ? "light" : "dark";
+        }
+
+        function setActive(theme) {
+          const isLight = theme === "light";
+          options.dark.classList.toggle("is-active", !isLight);
+          options.light.classList.toggle("is-active", isLight);
+          toggle.setAttribute("aria-pressed", String(isLight));
+          toggle.setAttribute("aria-label", isLight ? "Cambiar a modo oscuro" : "Cambiar a modo claro");
+        }
+
+        function applyTheme(nextTheme) {
+          document.documentElement.dataset.theme = nextTheme;
+          document.documentElement.style.colorScheme = nextTheme;
+          localStorage.setItem("theme", nextTheme);
+          document.cookie = `theme=${nextTheme}; Path=/; Max-Age=31536000; SameSite=Lax`;
+          setActive(nextTheme);
+        }
+
+        setActive(getTheme());
+        toggle.addEventListener("click", function () {
+          applyTheme(getTheme() === "light" ? "dark" : "light");
+        });
+      })();
+    </script>
+  </body>
+</html>
