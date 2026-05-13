@@ -51,6 +51,8 @@ body {
   min-height: 100vh;
   transition: background 220ms ease, color 220ms ease;
   overflow-x: hidden;
+  position: relative;
+  isolation: isolate;
 }
 
 a {
@@ -78,8 +80,12 @@ h2 {
 }
 
 h3 {
-  font-size: 1.24rem;
-  margin-bottom: 0.58rem;
+  font-size: 1.5rem;
+  margin-bottom: 0.7rem;
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  font-weight: 800;
 }
 
 p {
@@ -101,6 +107,7 @@ p {
   border-radius: 999px;
   filter: blur(50px);
   opacity: 0.42;
+  z-index: -1;
 }
 
 .bg-orb-a {
@@ -132,16 +139,6 @@ p {
   margin-bottom: 16px;
   position: relative;
   overflow: hidden;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: -30% -20% auto auto;
-  width: 360px;
-  height: 280px;
-  background: radial-gradient(circle at center, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%);
-  pointer-events: none;
 }
 
 .hero-copy {
@@ -197,20 +194,13 @@ p {
     color-mix(in srgb, var(--panel) 93%, transparent);
   box-shadow: var(--shadow-soft);
   transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  text-decoration: none;
 }
 
 .tool-card:hover {
   transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--accent) 60%, var(--line));
   box-shadow: 0 14px 26px rgb(20 10 50 / 0.2);
-}
-
-.tool-kicker {
-  font-size: 0.74rem;
-  font-weight: 800;
-  color: var(--accent);
-  letter-spacing: 0.1em;
-  margin-bottom: 0.68rem;
 }
 
 .tool-card p {
@@ -223,22 +213,24 @@ p {
 
 .result-link {
   align-items: center;
-  border: 1px solid color-mix(in srgb, var(--line) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 78%, transparent);
   border-radius: 10px;
-  color: var(--accent-strong);
+  color: var(--accent-text);
   display: inline-flex;
   font-weight: 700;
   justify-content: center;
   min-height: 40px;
   padding: 0.58rem 0.8rem;
   text-decoration: none;
+  background: linear-gradient(180deg, var(--accent), var(--accent-soft));
+  box-shadow: 0 6px 14px rgb(124 92 255 / 0.16);
   transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
   width: 100%;
 }
 
 .result-link:hover {
-  border-color: var(--accent);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  filter: brightness(1.06);
+  box-shadow: 0 8px 18px rgb(124 92 255 / 0.22);
 }
 
 .tool-replay {
@@ -263,7 +255,7 @@ p {
 }
 
 button:focus-visible,
-.result-link:focus-visible,
+.tool-card:focus-visible,
 .theme-toggle:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--accent) 48%, transparent);
   outline-offset: 3px;
