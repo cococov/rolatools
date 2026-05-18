@@ -313,6 +313,12 @@ button:focus-visible,
   text-align: center;
 }
 
+.footer-note {
+  margin: 0 0 8px;
+  color: color-mix(in srgb, var(--muted) 88%, var(--text));
+  font-size: 0.9rem;
+}
+
 .footer-link {
   color: var(--muted);
   font-size: 0.92rem;
