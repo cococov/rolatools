@@ -18,17 +18,13 @@
     <link rel="stylesheet" href="./styles.css" />
     <script>
       try {
-        const cookieMatch = document.cookie.match(/(?:^|; )theme=(light|dark)(?:;|$)/);
-        const cookieTheme = cookieMatch?.[1];
         const stored = localStorage.getItem("theme");
         const theme =
-          cookieTheme === "light" || cookieTheme === "dark"
-            ? cookieTheme
-            : stored === "light" || stored === "dark"
-              ? stored
-              : matchMedia("(prefers-color-scheme: light)").matches
-                ? "light"
-                : "dark";
+          stored === "light" || stored === "dark"
+            ? stored
+            : matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
 
         document.documentElement.dataset.theme = theme;
         document.documentElement.style.colorScheme = theme;
@@ -106,7 +102,6 @@
           document.documentElement.dataset.theme = nextTheme;
           document.documentElement.style.colorScheme = nextTheme;
           localStorage.setItem("theme", nextTheme);
-          document.cookie = `theme=${nextTheme}; Path=/; Max-Age=31536000; SameSite=Lax`;
           setActive(nextTheme);
         }
 
