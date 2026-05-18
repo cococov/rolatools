@@ -309,25 +309,45 @@ button:focus-visible,
 
 .site-footer {
   margin-top: auto;
-  padding-top: 14px;
-  text-align: center;
+  padding-top: 24px;
+  padding-bottom: 20px;
 }
 
-.footer-note {
-  margin: 0 0 8px;
+.footer-bottom {
+  border-top: 1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+}
+
+.footer-bottom p {
+  margin: 0;
   color: color-mix(in srgb, var(--muted) 88%, var(--text));
   font-size: 0.9rem;
 }
 
+.footer-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--line-strong);
+}
+
 .footer-link {
-  color: var(--muted);
+  color: var(--accent-strong);
   font-size: 0.92rem;
   text-decoration: none;
 }
 
 .footer-link:hover {
-  color: var(--accent-strong);
   text-decoration: underline;
+}
+
+.footer-heart {
+  color: var(--accent);
 }
 
 @media (max-width: 980px) {
@@ -341,5 +361,13 @@ button:focus-visible,
 
   .hero {
     padding: 22px;
+  }
+
+  .footer-bottom {
+    flex-wrap: wrap;
+  }
+
+  .footer-dot {
+    display: none;
   }
 }
