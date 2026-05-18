@@ -48,7 +48,9 @@ body {
   background: var(--bg-radial), linear-gradient(180deg, var(--bg), var(--panel-3));
   color: var(--text);
   font-family: "Geist", "Aptos", "Segoe UI", "Helvetica Neue", sans-serif;
-  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
   transition: background 220ms ease, color 220ms ease;
   overflow-x: hidden;
   position: relative;
@@ -99,6 +101,9 @@ p {
   padding: 38px 0 64px;
   position: relative;
   z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .bg-orb {
@@ -303,7 +308,8 @@ button:focus-visible,
 }
 
 .site-footer {
-  margin-top: 14px;
+  margin-top: auto;
+  padding-top: 14px;
   text-align: center;
 }
 
