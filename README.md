@@ -23,8 +23,17 @@ La implementación replica el comportamiento usado en `rola_replays`:
 
 - Usa `data-theme="dark|light"` en `<html>`.
 - Sincroniza con `localStorage` (`theme`).
-- Persiste preferencia en cookie (`theme`) por 1 año.
 - Si no hay preferencia guardada, usa `prefers-color-scheme` del sistema.
+
+## Security headers
+
+Se agregaron configuraciones para aplicar estas cabeceras en hosting estático:
+
+- `Content-Security-Policy`
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `Referrer-Policy: strict-origin-when-cross-origin`
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains; preload`
 
 ## Ejecutar localmente
 
