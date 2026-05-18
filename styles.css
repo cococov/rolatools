@@ -302,6 +302,22 @@ button:focus-visible,
   color: var(--accent-text);
 }
 
+.site-footer {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.footer-link {
+  color: var(--muted);
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
 @media (max-width: 980px) {
   .tools-grid {
     grid-template-columns: 1fr;
