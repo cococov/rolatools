@@ -1,5 +1,30 @@
+# General crawlers: public pages only.
 User-agent: *
 Disallow: /cdn-cgi/
 Allow: /
+
+# AI search and user-requested retrieval. Specific groups do not inherit *.
+User-agent: OAI-SearchBot
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Amzn-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-User
+User-agent: Perplexity-User
+User-agent: Amzn-User
+Disallow: /cdn-cgi/
+Allow: /
+
+# Opt out of model training. Google-Extended also controls Gemini grounding.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: Amazonbot
+# Legacy token retained with the training opt-out.
+User-agent: Claude-Web
+Disallow: /
 
 Sitemap: https://rolatools.com/sitemap.xml
