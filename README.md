@@ -75,6 +75,18 @@ consultas, y solicita excluir el entrenamiento con grupos explícitos:
   `Applebot-Extended`, `CCBot`, `Bytespider`, `Amazonbot` y el identificador
   antiguo `Claude-Web` (conservado por compatibilidad).
 
+El comodín y los grupos de búsqueda/consultas declaran la misma preferencia:
+
+```text
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+```
+
+Esto permite indexación y consultas de IA (incluido RAG), y excluye entrenamiento
+y ajuste de modelos. Los agentes ya bloqueados declaran los tres valores en
+`no` y conservan `Disallow: /`. Las señales se repiten por grupo; no reemplazan
+Allow/Disallow ni las protecciones del servidor. Son una extensión de
+robots.txt que algunos clientes pueden ignorar.
+
 Los grupos permitidos repiten `Disallow: /cdn-cgi/`: los agentes específicos
 no heredan las reglas del comodín. El sitemap incluye la portada y la política
 de privacidad; los subdominios de herramientas mantienen sus propios archivos.
@@ -89,7 +101,9 @@ activados por usuarios no lo aplican; los bots desconocidos siguen el comodín.
 No se modifican Cloudflare ni límites de peticiones. Robots.txt no garantiza
 el bloqueo de scrapers abusivos.
 
-Referencias: [skill solicitada](https://isitagentready.com/.well-known/agent-skills/ai-rules/SKILL.md),
+Referencias: [Content Signals](https://contentsignals.org/),
+[skill de Content Signals](https://isitagentready.com/.well-known/agent-skills/content-signals/SKILL.md),
+[skill de reglas de bots](https://isitagentready.com/.well-known/agent-skills/ai-rules/SKILL.md),
 [OpenAI](https://developers.openai.com/api/docs/bots),
 [Anthropic](https://privacy.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler),
 [Perplexity](https://docs.perplexity.ai/docs/resources/perplexity-crawlers) y
@@ -112,9 +126,10 @@ curl --fail-with-body --max-time 60 https://isitagentready.com/api/scan \
 ```
 
 Los resultados esperados son `checks.discoverability.robotsTxt.status = "pass"`,
-`checks.discoverability.sitemap.status = "pass"`
-y `checks.botAccessControl.robotsTxtAiRules.status = "pass"`.
-El último chequeo también pasa con solo un comodín: verificar además que
+`checks.discoverability.sitemap.status = "pass"`,
+`checks.botAccessControl.robotsTxtAiRules.status = "pass"`
+y `checks.botAccessControl.contentSignals.status = "pass"`.
+El chequeo de reglas de bots también pasa con solo un comodín: verificar además que
 GPTBot esté excluido y OAI-SearchBot permitido en el detalle del resultado.
 El chequeo remoto evalúa lo publicado, no los archivos locales ni una rama
 pendiente de desplegar.

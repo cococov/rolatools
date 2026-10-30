@@ -1,5 +1,6 @@
 # General crawlers: public pages only.
 User-agent: *
+Content-Signal: ai-train=no, search=yes, ai-input=yes
 Disallow: /cdn-cgi/
 Allow: /
 
@@ -12,6 +13,7 @@ User-agent: ChatGPT-User
 User-agent: Claude-User
 User-agent: Perplexity-User
 User-agent: Amzn-User
+Content-Signal: ai-train=no, search=yes, ai-input=yes
 Disallow: /cdn-cgi/
 Allow: /
 
@@ -25,6 +27,7 @@ User-agent: Bytespider
 User-agent: Amazonbot
 # Legacy token retained with the training opt-out.
 User-agent: Claude-Web
+Content-Signal: ai-train=no, search=no, ai-input=no
 Disallow: /
 
 Sitemap: https://rolatools.com/sitemap.xml
