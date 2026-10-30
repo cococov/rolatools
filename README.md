@@ -67,11 +67,13 @@ responder 200 como XML.
 
 El comodín `User-agent: *` permite rastrear páginas públicas y excluye las
 rutas internas `/cdn-cgi/` de Cloudflare. La política de IA permite búsqueda y
-consultas, y solicita excluir el entrenamiento con grupos explícitos:
+consultas, y solicita excluir el entrenamiento con grupos explícitos, salvo
+la excepción autorizada de Google-Extended:
 
 - Búsqueda: `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`, `Amzn-SearchBot`.
 - Consultas de usuarios: `ChatGPT-User`, `Claude-User`, `Perplexity-User`, `Amzn-User`.
-- Excluidos del sitio: `GPTBot`, `ClaudeBot`, `Google-Extended`,
+- Gemini (consultas y entrenamiento): `Google-Extended`.
+- Excluidos del sitio: `GPTBot`, `ClaudeBot`,
   `Applebot-Extended`, `CCBot`, `Bytespider`, `Amazonbot` y el identificador
   antiguo `Claude-Web` (conservado por compatibilidad).
 
@@ -87,14 +89,20 @@ y ajuste de modelos. Los agentes ya bloqueados declaran los tres valores en
 Allow/Disallow ni las protecciones del servidor. Son una extensión de
 robots.txt que algunos clientes pueden ignorar.
 
+Google-Extended tiene un grupo independiente con `Allow: /` y
+`Content-Signal: ai-train=yes, search=yes, ai-input=yes`. Esta excepción permite
+las respuestas de Gemini y acepta también el uso para entrenamiento vinculado
+a ese control. No cambia la preferencia de entrenamiento de los demás agentes.
+
 Los grupos permitidos repiten `Disallow: /cdn-cgi/`: los agentes específicos
 no heredan las reglas del comodín. El sitemap incluye la portada y la política
 de privacidad; los subdominios de herramientas mantienen sus propios archivos.
 
 [Google-Extended](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers#google-extended)
 controla tanto entrenamiento como el uso de contenido para fundamentar
-respuestas de Gemini y Vertex AI. Su exclusión también limita ese segundo uso,
-sin afectar la inclusión ni el ranking en Google Search.
+respuestas de Gemini y Vertex AI. Se permite expresamente porque excluirlo
+también limita ese segundo uso. Es un token de política, no un User-Agent HTTP
+independiente; no afecta la inclusión ni el ranking en Google Search.
 
 Robots.txt declara preferencias a los bots que lo respetan. Algunos fetchers
 activados por usuarios no lo aplican; los bots desconocidos siguen el comodín.
