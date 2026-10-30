@@ -17,10 +17,16 @@ Content-Signal: ai-train=no, search=yes, ai-input=yes
 Disallow: /cdn-cgi/
 Allow: /
 
-# Opt out of model training. Google-Extended also controls Gemini grounding.
+# Keep Gemini access and request no training through Content Signals.
+# Google may ignore the signal: Google-Extended itself combines both uses.
+User-agent: Google-Extended
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+Disallow: /cdn-cgi/
+Allow: /
+
+# Opt out of model training for the other identified crawlers.
 User-agent: GPTBot
 User-agent: ClaudeBot
-User-agent: Google-Extended
 User-agent: Applebot-Extended
 User-agent: CCBot
 User-agent: Bytespider

@@ -67,25 +67,37 @@ responder 200 como XML.
 
 El comodín `User-agent: *` permite rastrear páginas públicas y excluye las
 rutas internas `/cdn-cgi/` de Cloudflare. La política de IA permite búsqueda y
-consultas, y solicita excluir el entrenamiento con grupos explícitos:
+consultas, y solicita excluir el entrenamiento mediante Content Signals. Los
+rastreadores de entrenamiento identificados se bloquean, salvo Google-Extended,
+que permanece permitido para Gemini:
 
 - Búsqueda: `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`, `Amzn-SearchBot`.
 - Consultas de usuarios: `ChatGPT-User`, `Claude-User`, `Perplexity-User`, `Amzn-User`.
-- Excluidos del sitio: `GPTBot`, `ClaudeBot`, `Google-Extended`,
+- Consultas de Gemini: `Google-Extended`, con preferencia de no entrenar.
+- Excluidos del sitio: `GPTBot`, `ClaudeBot`,
   `Applebot-Extended`, `CCBot`, `Bytespider`, `Amazonbot` y el identificador
   antiguo `Claude-Web` (conservado por compatibilidad).
 
-El comodín y los grupos de búsqueda/consultas declaran la misma preferencia:
+El comodín, los grupos de búsqueda/consultas y Google-Extended declaran la misma
+preferencia:
 
 ```text
 Content-Signal: ai-train=no, search=yes, ai-input=yes
 ```
 
-Esto permite indexación y consultas de IA (incluido RAG), y excluye entrenamiento
-y ajuste de modelos. Los agentes ya bloqueados declaran los tres valores en
-`no` y conservan `Disallow: /`. Las señales se repiten por grupo; no reemplazan
+Esto permite indexación y consultas de IA (incluido RAG), y solicita excluir
+entrenamiento y ajuste de modelos. Los agentes ya bloqueados declaran los tres
+valores en `no` y conservan `Disallow: /`. Las señales se repiten por grupo; no reemplazan
 Allow/Disallow ni las protecciones del servidor. Son una extensión de
 robots.txt que algunos clientes pueden ignorar.
+
+Google-Extended tiene un grupo independiente con `Allow: /` y
+`Content-Signal: ai-train=no, search=yes, ai-input=yes`. Se permite el rastreo
+para mantener el acceso de Gemini, mientras se declara la preferencia de no
+usar el contenido para entrenamiento. Google no documenta soporte para separar
+estos usos mediante Content Signals y podría ignorar la señal; no equivale a
+un bloqueo efectivo del entrenamiento. Las políticas de los demás agentes se
+conservan.
 
 Los grupos permitidos repiten `Disallow: /cdn-cgi/`: los agentes específicos
 no heredan las reglas del comodín. El sitemap incluye la portada y la política
@@ -93,8 +105,9 @@ de privacidad; los subdominios de herramientas mantienen sus propios archivos.
 
 [Google-Extended](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers#google-extended)
 controla tanto entrenamiento como el uso de contenido para fundamentar
-respuestas de Gemini y Vertex AI. Su exclusión también limita ese segundo uso,
-sin afectar la inclusión ni el ranking en Google Search.
+respuestas de Gemini y Vertex AI. Se permite expresamente porque excluirlo
+también limita ese segundo uso. Es un token de política, no un User-Agent HTTP
+independiente; no afecta la inclusión ni el ranking en Google Search.
 
 Robots.txt declara preferencias a los bots que lo respetan. Algunos fetchers
 activados por usuarios no lo aplican; los bots desconocidos siguen el comodín.
