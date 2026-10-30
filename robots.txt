@@ -17,9 +17,10 @@ Content-Signal: ai-train=no, search=yes, ai-input=yes
 Disallow: /cdn-cgi/
 Allow: /
 
-# Google couples Gemini grounding and model training under this token.
+# Keep Gemini access and request no training through Content Signals.
+# Google may ignore the signal: Google-Extended itself combines both uses.
 User-agent: Google-Extended
-Content-Signal: ai-train=yes, search=yes, ai-input=yes
+Content-Signal: ai-train=no, search=yes, ai-input=yes
 Disallow: /cdn-cgi/
 Allow: /
 
