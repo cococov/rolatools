@@ -65,9 +65,35 @@ El servidor debe responder `GET /robots.txt` con HTTP 200 y `Content-Type:
 text/plain` (UTF-8), sin redirección ni autenticación. `sitemap.xml` debe
 responder 200 como XML.
 
-Las reglas permiten rastrear las páginas públicas y excluyen las rutas internas
-`/cdn-cgi/` de Cloudflare. El sitemap incluye la portada y la política de
-privacidad; los subdominios de herramientas mantienen sus propios sitemaps.
+El comodín `User-agent: *` permite rastrear páginas públicas y excluye las
+rutas internas `/cdn-cgi/` de Cloudflare. La política de IA permite búsqueda y
+consultas, y solicita excluir el entrenamiento con grupos explícitos:
+
+- Búsqueda: `OAI-SearchBot`, `Claude-SearchBot`, `PerplexityBot`, `Amzn-SearchBot`.
+- Consultas de usuarios: `ChatGPT-User`, `Claude-User`, `Perplexity-User`, `Amzn-User`.
+- Excluidos del sitio: `GPTBot`, `ClaudeBot`, `Google-Extended`,
+  `Applebot-Extended`, `CCBot`, `Bytespider`, `Amazonbot` y el identificador
+  antiguo `Claude-Web` (conservado por compatibilidad).
+
+Los grupos permitidos repiten `Disallow: /cdn-cgi/`: los agentes específicos
+no heredan las reglas del comodín. El sitemap incluye la portada y la política
+de privacidad; los subdominios de herramientas mantienen sus propios archivos.
+
+[Google-Extended](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers#google-extended)
+controla tanto entrenamiento como el uso de contenido para fundamentar
+respuestas de Gemini y Vertex AI. Su exclusión también limita ese segundo uso,
+sin afectar la inclusión ni el ranking en Google Search.
+
+Robots.txt declara preferencias a los bots que lo respetan. Algunos fetchers
+activados por usuarios no lo aplican; los bots desconocidos siguen el comodín.
+No se modifican Cloudflare ni límites de peticiones. Robots.txt no garantiza
+el bloqueo de scrapers abusivos.
+
+Referencias: [skill solicitada](https://isitagentready.com/.well-known/agent-skills/ai-rules/SKILL.md),
+[OpenAI](https://developers.openai.com/api/docs/bots),
+[Anthropic](https://privacy.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler),
+[Perplexity](https://docs.perplexity.ai/docs/resources/perplexity-crawlers) y
+[Amazon](https://developer.amazon.com/amazonbot).
 
 Si Cloudflare administra `robots.txt`, comprobar la respuesta pública después
 del despliegue: debe conservar el grupo `User-agent: *`, sus reglas y la URL
@@ -85,7 +111,10 @@ curl --fail-with-body --max-time 60 https://isitagentready.com/api/scan \
   --data '{"url":"https://rolatools.com"}'
 ```
 
-Los resultados esperados son `checks.discoverability.robotsTxt.status = "pass"`
-y `checks.discoverability.sitemap.status = "pass"`.
+Los resultados esperados son `checks.discoverability.robotsTxt.status = "pass"`,
+`checks.discoverability.sitemap.status = "pass"`
+y `checks.botAccessControl.robotsTxtAiRules.status = "pass"`.
+El último chequeo también pasa con solo un comodín: verificar además que
+GPTBot esté excluido y OAI-SearchBot permitido en el detalle del resultado.
 El chequeo remoto evalúa lo publicado, no los archivos locales ni una rama
 pendiente de desplegar.
