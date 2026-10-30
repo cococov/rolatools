@@ -21,6 +21,8 @@ Esta web presenta RolaTools y entrega acceso rápido a las herramientas activas 
 - `og-image.svg`: imagen para vista previa en redes.
 - `robots.txt`: reglas de rastreo y URL del sitemap.
 - `sitemap.xml`: páginas públicas del dominio raíz.
+- `scripts/update-sitemap.py`: genera el sitemap desde los enlaces canónicos.
+- `.github/workflows/sitemap.yml`: comprueba que el sitemap esté actualizado.
 
 ## Desarrollo local
 
@@ -34,6 +36,27 @@ python3 -m http.server 8080
 ```
 
 Luego abre `http://localhost:8080`.
+
+## Mantener el sitemap actualizado
+
+Al publicar, retirar o cambiar la URL de una página HTML, regenerar el sitemap
+antes de desplegar y guardar ambos cambios en el mismo commit:
+
+```bash
+python3 scripts/update-sitemap.py
+python3 scripts/update-sitemap.py --check
+```
+
+El generador lee los enlaces `<link rel="canonical">` de las páginas HTML,
+excluye páginas con `<meta name="robots" content="noindex">` y solo acepta URLs
+de `https://rolatools.com` que apunten a archivos existentes. No incluye los
+subdominios ni inventa fechas de modificación. Una página nueva debe declarar
+su URL canónica o marcarse como `noindex`. Esto controla la indexación, no el
+acceso: los archivos privados no deben publicarse en la raíz web.
+
+CI ejecuta `--check` en cada push y PR. Falla si el sitemap contiene páginas
+retiradas, omite páginas nuevas, usa canónicas inválidas o deja de estar
+referenciado desde `robots.txt`.
 
 ## Rastreo y despliegue
 
@@ -62,6 +85,7 @@ curl --fail-with-body --max-time 60 https://isitagentready.com/api/scan \
   --data '{"url":"https://rolatools.com"}'
 ```
 
-El resultado esperado es `checks.discoverability.robotsTxt.status = "pass"`.
+Los resultados esperados son `checks.discoverability.robotsTxt.status = "pass"`
+y `checks.discoverability.sitemap.status = "pass"`.
 El chequeo remoto evalúa lo publicado, no los archivos locales ni una rama
 pendiente de desplegar.
